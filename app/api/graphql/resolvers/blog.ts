@@ -1,7 +1,8 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 // resolvers/blog.ts
-
+//@ts-nocheck
 import db from "@/service/prisma";
+import { getUserFromCookies } from "@/service/session";
 
 //@ts-ignore
 export async function getBlogById(x, args) {
@@ -46,7 +47,12 @@ export async function getBlogs() {
 
 export async function createBlog(x, args) {
   try {
-    const { title, content, imageUrl, authorId } = args;
+    const { title, content, imageUrl} = args;
+    const user = await getUserFromCookies()
+    if(!user){
+      return false
+    }
+    const authorId = user?.id
     const blog = await db.blog.create({
       data: {
         title,

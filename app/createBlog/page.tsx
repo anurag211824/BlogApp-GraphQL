@@ -6,11 +6,10 @@ import gqlClient from "@/service/gql";
 import { gql } from "graphql-tag";
 const CreateBlogpage = () => {
   const CREATE_BLOG = gql`
-  mutation CreatBlog($title: String!, $content: String!, $authorId: ID!, $imageUrl: String) {
-  createBlog(title: $title, content: $content, authorId: $authorId, imageUrl: $imageUrl) {
+  mutation CreatBlog($title: String!, $content: String!, $imageUrl: String) {
+  createBlog(title: $title, content: $content,imageUrl: $imageUrl) {
     title
     content
-    authorId
     imageUrl
   }
 }
@@ -20,8 +19,8 @@ const CreateBlogpage = () => {
     const blog = await gqlClient.request(CREATE_BLOG, {
       title: title,
       content: content,
-      imageUrl:imageUrl,
-      authorId:authorId
+      imageUrl:imageUrl
+
     });
     console.log(blog);
     
@@ -31,7 +30,7 @@ const CreateBlogpage = () => {
   };
   const [title, setTittle] = useState("");
   const [content, setContent] = useState("");
-   const [authorId, setAuthorId] = useState("");
+//    const [authorId, setAuthorId] = useState("");
    const [imageUrl,setImageUrl] =  useState("")
   return (
  <div className="min-h-screen flex items-center justify-center bg-black px-4">
@@ -97,23 +96,7 @@ const CreateBlogpage = () => {
       />
     </div>
 
-    <div>
-      <label
-        htmlFor="authorid"
-        className="block text-sm font-medium text-gray-300 mb-1"
-      >
-        Author-Id:
-      </label>
-      <input
-        name="authorid"
-        value={authorId}
-        onChange={(e) => setAuthorId(e.target.value)}
-        id="authorid"
-        type="text"
-        placeholder="Enter a authorId"
-        className="w-full border border-gray-700 bg-gray-800 text-white rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:outline-none"
-      />
-    </div>
+   
 
     <button
       type="submit"
