@@ -12,7 +12,7 @@ const typeDefs = gql`
     blogs(q:String): [Blog]
   }
   type Mutation {
-    createBlog(title:String!,content:String!,imageUrl:String):Blog!
+    createBlog(title:String!,content:String!,imageUrl:String,authorId:ID!):Blog!
     deleteBlog(id:String):Boolean!
     updateBlog(id:String!,title:String,content:String,imageUrl:String):Boolean!
     signUpUser(email:String!,name:String!,password:String!):Boolean!
@@ -24,6 +24,7 @@ const typeDefs = gql`
     title: String
     content: String
     imageUrl: String
+    authorId:ID!
   }
 `;
 

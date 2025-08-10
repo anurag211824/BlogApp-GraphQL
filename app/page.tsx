@@ -22,7 +22,7 @@ const GET_BLOGS = gql`
 `;
 export default async function Home() {
   const data = await gqlClient.request(GET_BLOGS);
-  console.log(data);
+  //console.log(data);
 
   return (
  <>

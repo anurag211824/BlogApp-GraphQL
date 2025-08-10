@@ -30,17 +30,35 @@ export async function getBlogs() {
   }
 }
 //@ts-ignore
+// export async function createBlog(x, args) {
+//   try {
+//     const { title, content, imageUrl ,author} = args;
+//     const blog = await db.blog.create({
+//       //@ts-ignore
+//       data: { title, content, imageUrl,author },
+//     });
+//     return blog;
+//   } catch (error) {
+//     console.error("Error in createBlog:", error);
+//     return null;
+//   }
+// }
+
 export async function createBlog(x, args) {
   try {
-    const { title, content, imageUrl } = args;
+    const { title, content, imageUrl, authorId } = args;
     const blog = await db.blog.create({
-      //@ts-ignore
-      data: { title, content, imageUrl },
+      data: {
+        title,
+        content,
+        imageUrl,
+        authorId
+      },
     });
     return blog;
   } catch (error) {
     console.error("Error in createBlog:", error);
-    return null;
+    return false
   }
 }
 //@ts-ignore
