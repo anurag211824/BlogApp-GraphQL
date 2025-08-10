@@ -3,13 +3,16 @@ import { startServerAndCreateNextHandler } from "@as-integrations/next";
 import { ApolloServer } from "@apollo/server";
 import { NextRequest } from "next/server";
 import { gql } from "graphql-tag";
-import {getBlogById, getBlogs,createBlog, deleteBlog, updateBlog } from "./resolvers/blog";
+import {getBlogById, getBlogs,createBlog, deleteBlog, updateBlog, currentUserBlogs } from "./resolvers/blog";
 import { signInUser, signUpUser } from "./resolvers/user";
+import { getUserFromCookies } from "@/service/session";
 
 const typeDefs = gql`
   type Query {
     blog(id: String): Blog
     blogs(q:String): [Blog]
+    currentUser: User
+    currentUserBlogs : [Blog]
   }
   type Mutation {
     createBlog(title:String!,content:String!,imageUrl:String):Blog!
@@ -17,6 +20,14 @@ const typeDefs = gql`
     updateBlog(id:String!,title:String,content:String,imageUrl:String):Boolean!
     signUpUser(email:String!,name:String!,password:String!):Boolean!
     signInUser(email:String!,password:String):Boolean!
+  }
+  
+  type User{
+    id:String
+    email: String
+    name:String,
+
+
   }
 
   type Blog {
@@ -31,7 +42,9 @@ const typeDefs = gql`
 const resolvers = {
   Query: {
     blog: getBlogById,
-    blogs: getBlogs
+    blogs: getBlogs,
+    currentUser:getUserFromCookies,
+    currentUserBlogs
   },
   Mutation: {
     createBlog,

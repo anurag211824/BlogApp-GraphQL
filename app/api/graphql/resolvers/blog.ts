@@ -30,41 +30,26 @@ export async function getBlogs() {
     return [];
   }
 }
-//@ts-ignore
-// export async function createBlog(x, args) {
-//   try {
-//     const { title, content, imageUrl ,author} = args;
-//     const blog = await db.blog.create({
-//       //@ts-ignore
-//       data: { title, content, imageUrl,author },
-//     });
-//     return blog;
-//   } catch (error) {
-//     console.error("Error in createBlog:", error);
-//     return null;
-//   }
-// }
-
 export async function createBlog(x, args) {
   try {
-    const { title, content, imageUrl} = args;
-    const user = await getUserFromCookies()
-    if(!user){
-      return false
+    const { title, content, imageUrl } = args;
+    const user = await getUserFromCookies();
+    if (!user) {
+      return false;
     }
-    const authorId = user?.id
+    const authorId = user?.id;
     const blog = await db.blog.create({
       data: {
         title,
         content,
         imageUrl,
-        authorId
+        authorId,
       },
     });
     return blog;
   } catch (error) {
     console.error("Error in createBlog:", error);
-    return false
+    return false;
   }
 }
 //@ts-ignore
@@ -107,5 +92,22 @@ export async function updateBlog(x, args) {
   } catch (error) {
     console.log(error);
     return false;
+  }
+}
+
+//@ts-ignore
+export async function currentUserBlogs() {
+  try {
+    const user = await getUserFromCookies();
+    if (!user) return [];
+    const blogs = await db.blog.findMany({
+      where: {
+        authorId: user.id,
+      },
+    });
+    return blogs
+  } catch (error) {
+    console.log(error);
+    return []
   }
 }

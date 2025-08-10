@@ -1,12 +1,15 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 'use client'
 // @ts-nocheck
+import { MdUpdate } from "react-icons/md";
 import React, { useState } from 'react'
 import gqlClient from "@/service/gql";
 import { gql } from "graphql-tag";
+import { useRouter } from "next/navigation";
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 //@ts-ignore
 const UpdateButton = ({blog}) => {
+  const router = useRouter()
   const [open, setOpen] = useState(false)
   const [form, setForm] = useState({
     title: blog.title,
@@ -40,16 +43,17 @@ mutation UpdateBlog($id: String!, $title: String, $content: String, $imageUrl: S
     if(data?.updateBlog){
         alert("Blog Upadted")
     }
+     router.refresh()
     setOpen(false)
   }
 
   return (
     <>
       <button
-       className="bg-blue-500 px-3 py-1 text-white"
+       className="text-2xl text-blue-500"
         onClick={() => setOpen(true)}
       >
-        Update Blog
+      <MdUpdate />
       </button>
 
       {open && (

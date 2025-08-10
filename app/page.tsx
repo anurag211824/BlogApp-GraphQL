@@ -22,15 +22,14 @@ const GET_BLOGS = gql`
 `;
 export default async function Home() {
   const data = await gqlClient.request(GET_BLOGS);
-  //console.log(data);
+  const AllUsersBlogs = data.blogs
 
   return (
  <>
-  <div className="min-h-screen bg-black px-4 py-10">
-    <h2 className="text-2xl text-center font-bold mb-3">Your Blogs</h2>
+  <div className=" bg-black px-4 py-10">
     <div className="max-w-[1300px] mx-auto">
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        {data.blogs.map((blog, index) => {
+        {AllUsersBlogs.map((blog, index) => {
           return (
             <div
               key={index}
@@ -51,8 +50,8 @@ export default async function Home() {
               >
                 Read More →
               </Link>
-              <UpdateButton blog = {blog}/>
-              <DeleteButton id = {blog.id} />
+              {/* <UpdateButton blog = {blog}/>
+              <DeleteButton id = {blog.id} /> */}
              </div>
             </div>
           );

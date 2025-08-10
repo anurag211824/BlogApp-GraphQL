@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 //@ts-nocheck
 "use client";
-
+import { MdDelete } from "react-icons/md";
 import gqlClient from "@/service/gql";
 import { gql } from "graphql-tag";
 import { useRouter } from "next/navigation";
@@ -22,7 +22,7 @@ const DeleteButton = ({ id }) => {
   
  }
   const router =useRouter()
-  return <button className="bg-red-500 px-2 py-1 text-white" onClick={handleDelete}>Delete Blog</button>;
+  return <button className="text-2xl text-red-500" onClick={handleDelete}><MdDelete /></button>;
 };
 
 export default DeleteButton;
