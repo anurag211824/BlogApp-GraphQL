@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 //@ts-nocheck
+import { User } from "@/generated/prisma";
 import db from "@/service/prisma";
 import { cookies } from "next/headers";
 
@@ -46,5 +47,17 @@ export async function signInUser(x, args) {
   } catch (error) {
     console.error("Error in signin:", error);
     return false;
+  }
+}
+
+export async function getUserBlogs(user: User) {
+  try {
+    const blogs = await db.blog.findMany({
+      where: { authorId: user.id },
+    });
+    return blogs;
+  } catch (error) {
+    console.log(error);
+    return [];
   }
 }

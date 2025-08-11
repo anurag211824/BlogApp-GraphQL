@@ -1,9 +1,11 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 // resolvers/blog.ts
 //@ts-nocheck
+import { Blog } from "@/generated/prisma";
 import db from "@/service/prisma";
 import { getUserFromCookies } from "@/service/session";
 
+//@ts-ignore
 //@ts-ignore
 export async function getBlogById(x, args) {
   try {
@@ -109,5 +111,26 @@ export async function currentUserBlogs() {
   } catch (error) {
     console.log(error);
     return []
+  }
+}
+
+
+export async function getBlogUser(blog: Blog) {
+  const authorId = blog.authorId;
+
+  try {
+    const user = await db.user.findUnique({
+      where: { id: authorId },
+      select: {
+        id: true,
+        email: true,
+        name: true,
+      }
+    });
+
+    return user;
+  } catch (error) {
+    console.log(error);
+    return null;
   }
 }

@@ -1,3 +1,4 @@
+'use server'
 import { cookies } from "next/headers";
 import db from "./prisma";
 
@@ -21,5 +22,16 @@ export async function getUserFromCookies() {
     console.log(error);
 
     return null;
+  }
+}
+
+export async function logout() {
+  try {
+    const cookieStore = await cookies();
+    cookieStore.delete("token");
+    return true;
+  } catch (error) {
+    console.log(error);
+    return false;
   }
 }

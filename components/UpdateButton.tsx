@@ -43,7 +43,7 @@ mutation UpdateBlog($id: String!, $title: String, $content: String, $imageUrl: S
     if(data?.updateBlog){
         alert("Blog Upadted")
     }
-     router.refresh()
+    router.refresh()
     setOpen(false)
   }
 

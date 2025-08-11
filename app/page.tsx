@@ -50,8 +50,6 @@ export default async function Home() {
               >
                 Read More →
               </Link>
-              {/* <UpdateButton blog = {blog}/>
-              <DeleteButton id = {blog.id} /> */}
              </div>
             </div>
           );

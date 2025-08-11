@@ -35,7 +35,7 @@ export default function SignInPage() {
       //@ts-ignore
       if (data?.signInUser) {
         setSuccess(true);
-        router.push("/");
+         window.location.href = "/";
       } else {
         setError("Invalid credentials");
       }

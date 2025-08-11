@@ -12,17 +12,20 @@ const DeleteButton = ({ id }) => {
     }
   `;
 
- const handleDelete = async ()=>{
-     const blog = await gqlClient.request(DELETE_BLOG, {
-     id:id
+  const handleDelete = async () => {
+    const blog = await gqlClient.request(DELETE_BLOG, {
+      id: id,
     });
-    
-    router.refresh()
-  console.log(blog);
-  
- }
-  const router =useRouter()
-  return <button className="text-2xl text-red-500" onClick={handleDelete}><MdDelete /></button>;
+
+    router.refresh();
+    console.log(blog);
+  };
+  const router = useRouter();
+  return (
+    <button className="text-2xl text-red-500" onClick={handleDelete}>
+      <MdDelete />
+    </button>
+  );
 };
 
 export default DeleteButton;
