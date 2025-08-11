@@ -44,7 +44,6 @@ const AddBlogButton = ({ setUserBlogs, userBlogs }) => {
     setTittle("");
     setContent("");
     setImageUrl("");
-    alert("Blog Created");
     setOpen(false);
   };
 

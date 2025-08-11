@@ -83,7 +83,7 @@ export default function MyBlogsPage() {
             })}
           </div>
         </div>
-         <div className="fixed bottom-10 right-10">
+         <div className="fixed bottom-5 right-10">
           
           <AddBlogButton setUserBlogs={setUserBlogs} userBlogs={userBlogs} />
          </div>

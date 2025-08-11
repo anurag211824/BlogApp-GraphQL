@@ -5,12 +5,10 @@ import { MdUpdate } from "react-icons/md";
 import React, { useState } from "react";
 import gqlClient from "@/service/gql";
 import { gql } from "graphql-tag";
-import { useRouter } from "next/navigation";
 import { Blog } from "@/generated/prisma";
 
 //@ts-ignore
 const UpdateButton = ({ blog, setUserBlogs, userBlogs }) => {
-  const router = useRouter();
   const [open, setOpen] = useState(false);
   const [form, setForm] = useState({
     title: blog.title,
@@ -56,7 +54,8 @@ const UpdateButton = ({ blog, setUserBlogs, userBlogs }) => {
     });
     //@ts-ignore
     if (data?.updateBlog) {
-      router.refresh();
+     console.log("Blog Updated");
+     
     }
 
     setOpen(false);
