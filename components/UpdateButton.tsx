@@ -1,59 +1,71 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
-'use client'
+"use client";
 // @ts-nocheck
 import { MdUpdate } from "react-icons/md";
-import React, { useState } from 'react'
+import React, { useState } from "react";
 import gqlClient from "@/service/gql";
 import { gql } from "graphql-tag";
 import { useRouter } from "next/navigation";
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+import { Blog } from "@/generated/prisma";
+
 //@ts-ignore
-const UpdateButton = ({blog}) => {
-  const router = useRouter()
-  const [open, setOpen] = useState(false)
+const UpdateButton = ({ blog, setUserBlogs, userBlogs }) => {
+  const router = useRouter();
+  const [open, setOpen] = useState(false);
   const [form, setForm] = useState({
     title: blog.title,
     content: blog.content,
-    imageUrl: blog.imageUrl
-  })
+    imageUrl: blog.imageUrl,
+  });
 
-const UPDATE_BLOG = gql`
-mutation UpdateBlog($id: String!, $title: String, $content: String, $imageUrl: String) {
-  updateBlog(id: $id, title: $title, content: $content, imageUrl: $imageUrl)
-}
-`;
+  const UPDATE_BLOG = gql`
+    mutation UpdateBlog(
+      $id: String!
+      $title: String
+      $content: String
+      $imageUrl: String
+    ) {
+      updateBlog(id: $id, title: $title, content: $content, imageUrl: $imageUrl)
+    }
+  `;
 
-
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   //@ts-ignore
   const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value })
-  }
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
   //@ts-ignore
-  const handleSubmit = async(e) => {
-    e.preventDefault()
-    const data = await gqlClient.request(UPDATE_BLOG,{
-        id:blog.id,
-        title:form.title,
-        content:form.content,
-        imageUrl:form.imageUrl
-    })
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const updatedBlog = userBlogs.map((b: Blog) =>
+      b.id === blog.id
+        ? {
+            ...b,
+            title: form.title,
+            content: form.content,
+            imageUrl: form.imageUrl,
+          }
+        : b
+    );
+    setUserBlogs(updatedBlog);
+    const data = await gqlClient.request(UPDATE_BLOG, {
+      id: blog.id,
+      title: form.title,
+      content: form.content,
+      imageUrl: form.imageUrl,
+    });
     //@ts-ignore
-    if(data?.updateBlog){
-        alert("Blog Upadted")
+    if (data?.updateBlog) {
+      router.refresh();
     }
-    router.refresh()
-    setOpen(false)
-  }
+
+    setOpen(false);
+  };
 
   return (
     <>
-      <button
-       className="text-2xl text-blue-500"
-        onClick={() => setOpen(true)}
-      >
-      <MdUpdate />
+      <button className="text-2xl text-blue-500" onClick={() => setOpen(true)}>
+        <MdUpdate />
       </button>
 
       {open && (
@@ -103,7 +115,7 @@ mutation UpdateBlog($id: String!, $title: String, $content: String, $imageUrl: S
         </div>
       )}
     </>
-  )
-}
+  );
+};
 
-export default UpdateButton
+export default UpdateButton;

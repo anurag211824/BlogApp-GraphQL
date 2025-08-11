@@ -22,10 +22,17 @@ export async function getBlogById(x, args) {
   }
 }
 //@ts-ignore
-export async function getBlogs() {
+export async function getBlogs(x, args) {
   try {
-    //const q = args.q || "";
-    const blogs = await db.blog.findMany({});
+    const q = args.q || "";
+    const blogs = await db.blog.findMany({
+      where: {
+        title: {
+          contains: q, // use 'contains' instead of 'includes'
+          mode: "insensitive", // optional: makes search case-insensitive
+        },
+      },
+    });
     return blogs;
   } catch (error) {
     console.error("Error in getBlogs:", error);

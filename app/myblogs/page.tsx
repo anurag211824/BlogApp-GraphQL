@@ -1,5 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
+//@ts-nocheck
 import { Blog } from "@/generated/prisma";
 import gqlClient from "@/service/gql";
 import { gql } from "graphql-tag";
@@ -7,6 +8,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import UpdateButton from "@/components/UpdateButton";
 import DeleteButton from "@/components/DeleteButton";
+import AddBlogButton from "@/components/AddBlogButton";
 
 export default function MyBlogsPage() {
   const GET_USER_BLOG = gql`
@@ -43,7 +45,7 @@ export default function MyBlogsPage() {
 
   return (
     <>
-      <div className="min-h-screen bg-black px-4 py-10">
+      <div className="min-h-screen bg-black px-4 py-10 relative">
         <div className="max-w-[1300px] mx-auto">
           <h2 className="text-2xl text-left font-bold mb-3">My Blogs</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -72,8 +74,8 @@ export default function MyBlogsPage() {
                       Read More →
                     </Link>
                     <div className="flex items-center justify-center gap-5">
-                      <UpdateButton blog={blog} />
-                      <DeleteButton id={blog.id} />
+                      <UpdateButton setUserBlogs={setUserBlogs} userBlogs={userBlogs} blog={blog} />
+                    <DeleteButton id={blog.id} setUserBlogs={setUserBlogs} userBlogs={userBlogs} />
                     </div>
                   </div>
                 </div>
@@ -81,7 +83,12 @@ export default function MyBlogsPage() {
             })}
           </div>
         </div>
+         <div className="fixed bottom-10 right-10">
+          
+          <AddBlogButton setUserBlogs={setUserBlogs} userBlogs={userBlogs} />
+         </div>
       </div>
+     
     </>
   );
 }

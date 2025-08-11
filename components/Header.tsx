@@ -38,10 +38,10 @@ export default function Header() {
   };
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   //@ts-ignore
-  const handleSearch = (e) => {
-    if (e.key === "Enter" && searchQuery.trim()) {
-      alert(`Searching for: "${searchQuery}"`);
-    }
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    router.push(`/?query=${searchQuery}`)
+    
   };
 
   const togglePopover = () => {
@@ -123,7 +123,7 @@ export default function Header() {
             className="flex items-center gap-3 cursor-pointer hover:scale-105 transition-transform duration-200"
           >
             <BlogLogo />
-            <h1 className="text-xl lg:text-2xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
+            <h1 className="hidden md:block text-xl lg:text-2xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
               BlogY
             </h1>
           </Link>
@@ -132,14 +132,15 @@ export default function Header() {
           <div className="flex-1 max-w-lg mx-4 lg:mx-8">
             <div className="relative">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
-              <input
+              <form onSubmit={handleSubmit}>
+                <input
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                onKeyPress={handleSearch}
                 className="w-full pl-10 pr-4 py-3 bg-gray-800/50 border border-gray-600 rounded-full text-white placeholder-gray-400 focus:outline-none focus:border-blue-500 focus:bg-gray-800 transition-all duration-300 focus:shadow-lg focus:shadow-blue-500/20"
                 placeholder="Search blogs title..."
               />
+              </form>
             </div>
           </div>
 

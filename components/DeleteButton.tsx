@@ -5,7 +5,7 @@ import { MdDelete } from "react-icons/md";
 import gqlClient from "@/service/gql";
 import { gql } from "graphql-tag";
 import { useRouter } from "next/navigation";
-const DeleteButton = ({ id }) => {
+const DeleteButton = ({ id, setUserBlogs, userBlogs }) => {
   const DELETE_BLOG = gql`
     mutation DeleteBlog($id: String!) {
       deleteBlog(id: $id)
@@ -13,10 +13,11 @@ const DeleteButton = ({ id }) => {
   `;
 
   const handleDelete = async () => {
+   const newBlogs = userBlogs.filter((blog)=>blog.id != id)
+   setUserBlogs(newBlogs)
     const blog = await gqlClient.request(DELETE_BLOG, {
       id: id,
     });
-
     router.refresh();
     console.log(blog);
   };

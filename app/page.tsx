@@ -1,32 +1,33 @@
 /* eslint-disable @next/next/no-img-element */
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 //@ts-nocheck
-import DeleteButton from "@/components/DeleteButton";
-import UpdateButton from "@/components/UpdateButton";
 import { gql, GraphQLClient } from "graphql-request";
 import Link from "next/link";
 const gqlClient = new GraphQLClient("http://localhost:3000/api/graphql");
 const GET_BLOGS = gql`
-  query Blog {
-    blogs {
-      title
-      content
-      id
-      imageUrl
-    }
+query Blogs($q: String) {
+  blogs(q: $q) {
+   title
+   imageUrl
+   content
+   id
+  }
     # blog(id:"6895c02d8308de5307f9510d") {
     #   title
     #   content
     # }
   }
 `;
-export default async function Home() {
-  const data = await gqlClient.request(GET_BLOGS);
+export default async function Home({searchParams}) {
+  const {query} = await searchParams
+  const data = await gqlClient.request(GET_BLOGS,{
+    q: query || ""
+  });
   const AllUsersBlogs = data.blogs
 
   return (
  <>
-  <div className=" bg-black px-4 py-10">
+  <div className=" bg-black min-h-screen px-4 py-10">
     <div className="max-w-[1300px] mx-auto">
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {AllUsersBlogs.map((blog, index) => {
